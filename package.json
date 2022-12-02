@@ -1,0 +1,27 @@
+{
+    "name": "sa-reports",
+    "version": "2.1.0",
+    "description": "Red Hat CEE SA Weekly reporting tool",
+    "author": "Jakub Veverka <jakub.veverka@redhat.com>",
+    "homepage": "",
+    "license": "MIT",
+    "scripts": {
+        "format": "prettier --write dist/code.js",
+        "postbuild": "npm run format",
+        "upload": "npx clasp push"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jwerak/sa-reports.git"
+    },
+    "keywords": [
+        "google-apps-script"
+    ],
+    "dependencies": {
+        "@google/clasp": "^2.4.2",
+        "@types/google-apps-script": "^1.0.56",
+        "@typescript-eslint/eslint-plugin": "^5.31.0",
+        "@typescript-eslint/parser": "^5.31.0",
+        "eslint": "^8.21.0"
+    }
+}
