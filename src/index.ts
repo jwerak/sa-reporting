@@ -20,8 +20,12 @@ function importCalendars() {
 
   cleanUpSheet(sheet);
 
-  const events = cal.getEvents(start_date, end_date, {
-    statusFilters: ["YES", "OWNER"],
+  // Get and filter events
+  const events = cal.getEvents(start_date, end_date).filter(function (e) {
+    return [
+      CalendarApp.GuestStatus.OWNER,
+      CalendarApp.GuestStatus.YES,
+    ].includes(e.getMyStatus());
   });
 
   const lastWeekEvents: string[][] = [];
