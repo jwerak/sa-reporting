@@ -20,20 +20,23 @@ function importCalendars() {
 
   cleanUpSheet(sheet);
 
-  // Get and filter events
-  const events = cal.getEvents(start_date, end_date).filter(function (e) {
-    return [
-      CalendarApp.GuestStatus.OWNER,
-      CalendarApp.GuestStatus.YES,
-    ].includes(e.getMyStatus());
-  });
+  const events = cal.getEvents(start_date, end_date);
 
   const lastWeekEvents: string[][] = [];
   events.forEach((event: GoogleAppsScript.Calendar.CalendarEvent) => {
-    const date = event.getStartTime();
+    // Filter events owned or attended
+    console.log(Date.now());
+    if (
+      ![CalendarApp.GuestStatus.OWNER, CalendarApp.GuestStatus.YES].includes(
+        event.getMyStatus()
+      )
+    ) {
+      return;
+    }
+
+    const startTime = event.getStartTime();
     let hours =
-      (event.getEndTime().getTime() - event.getStartTime().getTime()) /
-      MILLIS_PER_HOUR;
+      (event.getEndTime().getTime() - startTime.getTime()) / MILLIS_PER_HOUR;
 
     // Normalize full day events
     if (hours % 24 == 0) {
@@ -41,7 +44,7 @@ function importCalendars() {
     }
 
     const formatted_date = Utilities.formatDate(
-      date,
+      startTime,
       currentTimezone,
       currentFormat
     );
