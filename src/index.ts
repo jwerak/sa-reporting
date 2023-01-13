@@ -20,20 +20,22 @@ function importCalendars() {
 
   cleanUpSheet(sheet);
 
-  const events = cal.getEvents(start_date, end_date);
+  let events: GoogleAppsScript.Calendar.CalendarEvent[] = [];
+  events = cal.getEvents(start_date, end_date, {
+    statusFilters: ["YES", "OWNER"],
+  });
+  if (events.length == 0) {
+    // Workaround for sometimes unreliable Google API
+    events = cal.getEvents(start_date, end_date).filter(function (e) {
+      return [
+        CalendarApp.GuestStatus.OWNER,
+        CalendarApp.GuestStatus.YES,
+      ].includes(e.getMyStatus());
+    });
+  }
 
   const lastWeekEvents: string[][] = [];
   events.forEach((event: GoogleAppsScript.Calendar.CalendarEvent) => {
-    // Filter events owned or attended
-    console.log(Date.now());
-    if (
-      ![CalendarApp.GuestStatus.OWNER, CalendarApp.GuestStatus.YES].includes(
-        event.getMyStatus()
-      )
-    ) {
-      return;
-    }
-
     const startTime = event.getStartTime();
     let hours =
       (event.getEndTime().getTime() - startTime.getTime()) / MILLIS_PER_HOUR;
