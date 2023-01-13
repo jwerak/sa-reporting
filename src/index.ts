@@ -71,7 +71,7 @@ function onEdit(e) {
   const range = e.range;
   const row = range.getRow();
   const col = range.getColumn();
-  const sheet = SpreadsheetApp.getActiveSheet();
+  const sheet = range.getSheet();
 
   if (row === 1 && col === 1) {
     //Set the sheet name

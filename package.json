@@ -1,6 +1,6 @@
 {
     "name": "sa-reports",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "Red Hat CEE SA Weekly reporting tool",
     "author": "Jakub Veverka <jakub.veverka@redhat.com>",
     "homepage": "",
